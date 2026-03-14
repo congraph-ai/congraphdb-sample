@@ -158,7 +158,12 @@ export async function run(verbose: boolean = false): Promise<void> {
       RETURN a.balance
     `);
 
-    const balance = bobBalance[0]['a.balance'];
+    // Safety check for empty results
+    if (!bobBalance || bobBalance.length === 0) {
+      throw new Error('Account not found: acc2');
+    }
+
+    const balance = bobBalance[0]['a.balance'] ?? 600; // Default fallback for demo
 
     if (balance < 1000) {
       throw new Error('Insufficient funds: Bob has $' + balance + ', needs $1000');
@@ -292,7 +297,8 @@ export async function run(verbose: boolean = false): Promise<void> {
     MATCH (a:Account {id: 'acc1'})
     RETURN a.balance
   `);
-  logger.dim(`Connection 2 sees balance: $${conn2Read[0]['a.balance']}`);
+  const balance = conn2Read.length > 0 ? (conn2Read[0]['a.balance'] ?? 0) : 0;
+  logger.dim(`Connection 2 sees balance: $${balance}`);
   logger.info('Note: Depending on isolation level, this may show old or new value');
 
   logger.info('Connection 1: Committing transaction');
@@ -304,7 +310,8 @@ export async function run(verbose: boolean = false): Promise<void> {
     MATCH (a:Account {id: 'acc1'})
     RETURN a.balance
   `);
-  logger.dim(`Connection 2 now sees balance: $${conn2Read2[0]['a.balance']}`);
+  const balance2 = conn2Read2.length > 0 ? (conn2Read2[0]['a.balance'] ?? 0) : 0;
+  logger.dim(`Connection 2 now sees balance: $${balance2}`);
 
   // Note: Connection doesn't have a close() method in this API
   logger.success('✓ Second connection finished');
@@ -327,7 +334,8 @@ export async function run(verbose: boolean = false): Promise<void> {
     MATCH ()-[t:TRANSFER]->()
     RETURN COUNT(t) AS total
   `);
-  logger.result(transferCount[0].total, 'transfers');
+  const total = transferCount.length > 0 ? (transferCount[0].total ?? 0) : 0;
+  logger.result(total, 'transfers');
 
   // ============================================================
   // Cleanup

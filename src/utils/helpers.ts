@@ -71,7 +71,10 @@ export async function executeQuery(
   query: string
 ): Promise<any[]> {
   const result = await conn.query(query);
-  return await result.getAll();
+  const rows = await result.getAll();
+  // Handle undefined or null results
+  if (!rows) return [];
+  return rows;
 }
 
 /**
