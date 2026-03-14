@@ -7,7 +7,7 @@ Quick reference for the CongraphDB API and Cypher query language.
 ### Creating a Database
 
 ```typescript
-import congraphdb from 'congraphdb';
+import congraphdb from '@congraph-ai/congraphdb';
 
 // In-memory database
 const db = new congraphdb.Database();

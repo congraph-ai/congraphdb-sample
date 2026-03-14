@@ -15,7 +15,7 @@
  * These patterns enable complex data analysis and navigation.
  */
 
-import congraphdb from 'congraphdb';
+import congraphdb from '@congraph-ai/congraphdb';
 import { createDatabase, executeQuery, printResults } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 

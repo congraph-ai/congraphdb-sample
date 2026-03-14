@@ -40,7 +40,7 @@ npm --version
 ### Install CongraphDB
 
 ```bash
-npm install congraphdb
+npm install @congraph-ai/congraphdb
 ```
 
 ### TypeScript Setup
@@ -55,7 +55,7 @@ npx tsc --init
 ### Step 1: Import and Create a Database
 
 ```typescript
-import congraphdb from 'congraphdb';
+import congraphdb from '@congraph-ai/congraphdb';
 
 // Create an in-memory database
 const db = new congraphdb.Database();
@@ -257,7 +257,7 @@ await db.close();
 Here's a complete working example:
 
 ```typescript
-import congraphdb from 'congraphdb';
+import congraphdb from '@congraph-ai/congraphdb';
 
 async function main() {
   // Create database
