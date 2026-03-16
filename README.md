@@ -257,5 +257,6 @@ MIT
 
 - [CongraphDB on npm](https://www.npmjs.com/package/@congraph-ai/congraphdb)
 - [CongraphDB Repository](https://github.com/congraph-ai/congraphdb)
+- [Official Documentation](https://congraph-ai.github.io/congraphdb-docs/)
 - [Cypher Query Language](https://opencypher.org/)
-- [Documentation](docs/)
+- [Project Documentation](docs/)
