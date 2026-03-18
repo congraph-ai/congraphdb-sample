@@ -1,6 +1,6 @@
 {
   "name": "congraphdb-sample",
-  "version": "0.1.4",
+  "version": "0.1.",
   "description": "Sample project demonstrating CongraphDB usage",
   "main": "dist/index.js",
   "type": "module",
@@ -11,7 +11,7 @@
     "clean": "rm -rf dist data/*.cgraph data/*.wal"
   },
   "dependencies": {
-    "@congraph-ai/congraphdb": "^0.1.4",
+    "@congraph-ai/congraphdb": "^0.1.5",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "ora": "^7.0.1"

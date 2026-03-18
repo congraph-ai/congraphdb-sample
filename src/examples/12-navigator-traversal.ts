@@ -111,7 +111,7 @@ export async function run(verbose: boolean = false): Promise<void> {
     ['grace', 'henry'],
   ];
 
-  const peopleMap = new Map(people.map(p => [p.id, p._id]));
+  const peopleMap = new Map(people.map((p: any) => [p.id, p._id]));
   for (const [from, to] of knows) {
     await api.createEdge(peopleMap.get(from)!, 'KNOWS', peopleMap.get(to)!, { since: 2020 });
   }
@@ -252,7 +252,7 @@ const youngFriends = await api.nav(alice._id)
 
   const filtered = await api.nav(alice._id)
     .out('KNOWS')
-    .where(f => f.city === 'Chicago')
+    .where((f: any) => f.city === 'Chicago')
     .values();
 
   logger.result(filtered.length, 'friends in Chicago');
@@ -342,7 +342,7 @@ const path = await api.nav(bob._id)
 
   if (path && path.length > 0) {
     logger.result(path.length, 'nodes in shortest path');
-    logger.info('Path:', path.map((p: any) => p.name).join(' → '));
+    logger.info('Path: ' + path.map((p: any) => p.name).join(' → '));
   } else {
     logger.info('No path found');
   }
@@ -442,7 +442,7 @@ const results = await api.nav(alice._id)
   const complex = await api.nav(alice._id)
     .out('KNOWS')           // Alice's friends
     .out('KNOWS')           // Friends of friends
-    .where(f => ['NYC', 'LA'].includes(f.city))
+    .where((f: any) => ['NYC', 'LA'].includes(f.city))
     .limit(5)
     .values();
 

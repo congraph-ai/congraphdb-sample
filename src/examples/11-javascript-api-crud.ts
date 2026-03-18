@@ -276,7 +276,11 @@ export async function run(verbose: boolean = false): Promise<void> {
 
   logger.info('Deleting a relationship...');
   const deleted = await api.deleteEdge(aliceAssignments[0]._id);
-  logger.result(deleted ? 'Successfully deleted' : 'Delete failed', '');
+  if (deleted) {
+    logger.success('✓ Successfully deleted edge');
+  } else {
+    logger.info('Delete failed');
+  }
 
   logger.info('Deleting a node (with detach)...');
   logger.code(`await api.deleteNode(userId, true); // detach = true`);
@@ -284,7 +288,11 @@ export async function run(verbose: boolean = false): Promise<void> {
 
   // Delete Diana (no active projects)
   const deletedNode = await api.deleteNode(users[3]._id, true);
-  logger.result(deletedNode ? 'Successfully deleted node' : 'Delete failed', '');
+  if (deletedNode) {
+    logger.success('✓ Successfully deleted node');
+  } else {
+    logger.info('Delete failed');
+  }
 
   logger.info('Verifying deletion...');
   const remainingUsers = await api.getNodesByLabel('User');
@@ -329,7 +337,7 @@ export async function run(verbose: boolean = false): Promise<void> {
 
   logger.info('Finding all active developers...');
   const allUsers2 = await api.getNodesByLabel('User');
-  const activeDevs = allUsers2.filter(u => u.active && u.role === 'Developer');
+  const activeDevs = allUsers2.filter((u: any) => u.active && u.role === 'Developer');
   logger.result(activeDevs.length, 'active developers');
   for (const dev of activeDevs) {
     logger.data('Developer:', { username: dev.username, email: dev.email });

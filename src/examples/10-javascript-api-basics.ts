@@ -191,7 +191,7 @@ const alice = await api.getNode(alice._id);`
   logger.info('Getting all nodes by label...');
   const allPeople = await api.getNodesByLabel('Person');
   logger.result(allPeople.length, 'people retrieved');
-  logger.data('All people:', allPeople.map(p => ({ name: p.name, age: p.age })));
+  logger.data('All people:', allPeople.map((p: any) => ({ name: p.name, age: p.age })));
 
   // ============================================================
   // STEP 6: Basic Pattern Matching with JavaScript API
@@ -266,7 +266,7 @@ await api.updateNode(alice._id, { age: 31 });`
   logger.info('The JavaScript API provides a transaction helper:');
 
   try {
-    await api.transaction(async (txApi) => {
+    await api.transaction(async (txApi: any) => {
       // All operations within this function run in a transaction
       const eve = await txApi.createNode('Person', {
         id: 'eve',

@@ -37,9 +37,33 @@ export async function run(verbose: boolean = false): Promise<void> {
   const conn = db.createConnection();
 
   // ============================================================
-  // STEP 2: Create Nodes (CREATE)
+  // STEP 2: Create Schema
   // ============================================================
-  logger.subheader('Step 2: Creating Nodes');
+  logger.subheader('Step 2: Creating Schema');
+
+  logger.info('Creating Person node table...');
+  await conn.query(`
+    CREATE NODE TABLE Person (
+      name STRING,
+      age INT64,
+      email STRING,
+      PRIMARY KEY (name)
+    )
+  `);
+  logger.success('✓ Person table created');
+
+  logger.info('Creating KNOWS relationship table...');
+  await conn.query(`
+    CREATE REL TABLE KNOWS (
+      FROM Person TO Person
+    )
+  `);
+  logger.success('✓ KNOWS relationship table created');
+
+  // ============================================================
+  // STEP 3: Create Nodes (CREATE)
+  // ============================================================
+  logger.subheader('Step 3: Creating Nodes');
 
   logger.info('Creating people...');
   await conn.query("CREATE (p:Person {name: 'Alice', age: 30, email: 'alice@example.com'})");
@@ -49,20 +73,21 @@ export async function run(verbose: boolean = false): Promise<void> {
   logger.success('✓ Created 4 Person nodes');
 
   // ============================================================
-  // STEP 3: Create Relationships
+  // STEP 4: Create Relationships
   // ============================================================
-  logger.subheader('Step 3: Creating Relationships');
+  logger.subheader('Step 4: Creating Relationships');
 
   logger.info('Creating KNOWS relationships...');
-  await conn.query("MATCH (a:Person {name: 'Alice'}), (b:Person {name: 'Bob'}) CREATE (a)-[:KNOWS]->(b)");
-  await conn.query("MATCH (a:Person {name: 'Alice'}), (b:Person {name: 'Charlie'}) CREATE (a)-[:KNOWS]->(b)");
-  await conn.query("MATCH (a:Person {name: 'Bob'}), (b:Person {name: 'Diana'}) CREATE (a)-[:KNOWS]->(b)");
+  // Use CREATE with full node specification (CongraphDB limitation: MATCH+CREATE not supported)
+  await conn.query("CREATE (a:Person {name: 'Alice'})-[:KNOWS]->(b:Person {name: 'Bob'})");
+  await conn.query("CREATE (a:Person {name: 'Alice'})-[:KNOWS]->(b:Person {name: 'Charlie'})");
+  await conn.query("CREATE (a:Person {name: 'Bob'})-[:KNOWS]->(b:Person {name: 'Diana'})");
   logger.success('✓ Created 3 KNOWS relationships');
 
   // ============================================================
-  // STEP 4: Query Data (MATCH & RETURN)
+  // STEP 5: Query Data (MATCH & RETURN)
   // ============================================================
-  logger.subheader('Step 4: Querying Data');
+  logger.subheader('Step 5: Querying Data');
 
   logger.info('Find all people:');
   const allPeople = await executeQuery(conn, "MATCH (p:Person) RETURN p.name, p.age, p.email ORDER BY p.name");
@@ -76,9 +101,9 @@ export async function run(verbose: boolean = false): Promise<void> {
   logger.result(alicesFriends.length, 'friends');
 
   // ============================================================
-  // STEP 5: Update Data (SET)
+  // STEP 6: Update Data (SET)
   // ============================================================
-  logger.subheader('Step 5: Updating Data');
+  logger.subheader('Step 6: Updating Data');
 
   logger.info("Updating Bob's age to 26...");
   await conn.query("MATCH (p:Person {name: 'Bob'}) SET p.age = 26");
@@ -90,9 +115,9 @@ export async function run(verbose: boolean = false): Promise<void> {
   printResults(updatedBob);
 
   // ============================================================
-  // STEP 6: Delete Data (DETACH DELETE)
+  // STEP 7: Delete Data (DETACH DELETE)
   // ============================================================
-  logger.subheader('Step 6: Deleting Data');
+  logger.subheader('Step 7: Deleting Data');
 
   logger.info("Deleting Charlie and all his relationships...");
   await conn.query("MATCH (p:Person {name: 'Charlie'}) DETACH DELETE p");
@@ -105,9 +130,9 @@ export async function run(verbose: boolean = false): Promise<void> {
   logger.result(remainingPeople.length, 'people remaining');
 
   // ============================================================
-  // STEP 7: Pattern Matching
+  // STEP 8: Pattern Matching
   // ============================================================
-  logger.subheader('Step 7: Pattern Matching');
+  logger.subheader('Step 8: Pattern Matching');
 
   logger.info('Find all KNOWS relationships:');
   const relationships = await executeQuery(conn, "MATCH (a:Person)-[k:KNOWS]->(b:Person) RETURN a.name AS from, b.name AS to");

@@ -304,7 +304,12 @@ export async function run(verbose: boolean = false): Promise<void> {
   printResults(degrees);
 
   if (degrees.length > 0) {
-    logger.info(`${degrees[0].connection_chain.join(' → ')} (${degrees[0].degrees_of_separation} degrees)`);
+    if (degrees[0].connection_chain && Array.isArray(degrees[0].connection_chain)) {
+      logger.info(`${degrees[0].connection_chain.join(' → ')} (${degrees[0].degrees_of_separation} degrees)`);
+    } else {
+      logger.info(`Found ${degrees.length} path(s) between Alice and Jack`);
+      logger.dim('Note: Path functions like shortestPath() are not yet fully implemented');
+    }
   }
 
   // ============================================================
@@ -338,7 +343,7 @@ export async function run(verbose: boolean = false): Promise<void> {
     MATCH (a:Person {name: 'Alice'})-[:FRIENDS_WITH*1..2]->(b:Person)
     WITH b AS reached_outgoing
     MATCH (c:Person {name: 'Alice'})<-[:FRIENDS_WITH*1..2]-(d:Person)
-    WHERE d.name IN [n IN [reached_outgoing] | n.name]
+    WHERE d.name = reached_outgoing.name
     RETURN d.name AS bidirectional_reachable
     ORDER BY bidirectional_reachable
   `);

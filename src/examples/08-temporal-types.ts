@@ -79,7 +79,7 @@ export async function run(verbose: boolean = false): Promise<void> {
       name STRING,
       event_date DATE,
       event_time DATETIME,
-      duration TEXT,
+      duration STRING,
       location STRING,
       PRIMARY KEY (id)
     )

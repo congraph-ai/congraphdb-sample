@@ -377,7 +377,7 @@ const orders = await api.find({
   });
 
   const customersWhoBoughtLaptop = await Promise.all(
-    laptopOrders.map(async row => {
+    laptopOrders.map(async (row: any) => {
       const customers = await api.find({
         subject: api.v('customer'),
         predicate: 'PLACED',
@@ -465,7 +465,7 @@ const results = await api.find(orderPattern);
 
   // First, find Gold customers
   const allCustomers = await api.getNodesByLabel('Customer');
-  const goldCustomers = allCustomers.filter(c => c.tier === 'Gold');
+  const goldCustomers = allCustomers.filter((c: any) => c.tier === 'Gold');
 
   logger.result(goldCustomers.length, 'Gold customers');
 

@@ -4,7 +4,7 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.5-orange)](https://www.npmjs.com/package/@congraph-ai/congraphdb)
+[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.6-orange)](https://www.npmjs.com/package/@congraph-ai/congraphdb)
 
 ## What is CongraphDB?
 
