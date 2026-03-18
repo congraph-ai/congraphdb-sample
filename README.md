@@ -4,7 +4,7 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.4-orange)](https://www.npmjs.com/package/@congraph-ai/congraphdb)
+[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.5-orange)](https://www.npmjs.com/package/@congraph-ai/congraphdb)
 
 ## What is CongraphDB?
 
@@ -19,6 +19,7 @@ CongraphDB is an embedded graph database that brings the power of graph data mod
 
 This sample project showcases:
 
+### Cypher Query Language (Examples 01-09)
 - **Core Graph Operations** - Creating nodes, relationships, and querying with Cypher
 - **Transactions** - ACID guarantees with begin, commit, and rollback
 - **Vector Similarity Search** - HNSW-based approximate nearest neighbor search
@@ -27,6 +28,13 @@ This sample project showcases:
 - **Path Finding** - shortestPath() and allShortestPaths() for graph traversal
 - **Temporal Types** - DATE, DATETIME, DURATION for time-based queries
 - **Advanced Features** - Multi-label nodes, regex matching, map literals
+
+### JavaScript Native API (Examples 10-14)
+- **JavaScript API Basics** - CongraphDBAPI for programmatic graph operations
+- **CRUD Operations** - createNode, getNode, updateNode, deleteNode, createEdge, etc.
+- **Navigator Traversal** - Fluent API for graph traversal (LevelGraph-compatible)
+- **Pattern Matching** - Declarative pattern matching with find() and v() variables
+- **Interface Comparison** - When to use Cypher vs JavaScript API vs Navigator
 
 ## Quick Start
 
@@ -71,6 +79,7 @@ npm start
 Run a specific example:
 
 ```bash
+# Cypher Query Language Examples (01-09)
 npm start basics              # Basic CRUD operations
 npm start social-network      # Social network graph demo
 npm start transactions        # Transaction demo
@@ -80,6 +89,13 @@ npm start advanced-queries    # Complex Cypher patterns
 npm start path-finding        # Path finding algorithms
 npm start temporal-types      # Temporal data types
 npm start advanced-features   # Multi-label, regex, maps
+
+# JavaScript API Examples (10-14)
+npm start javascript-api-basics       # JavaScript API fundamentals
+npm start javascript-api-crud         # Advanced CRUD operations
+npm start navigator-traversal         # Fluent graph traversal
+npm start pattern-matching            # Pattern matching with find()
+npm start when-to-use-what            # Choosing query interface
 ```
 
 ### Options
@@ -97,15 +113,20 @@ npm start -- --help           # Show help
 congraphdb-sample/
 ├── src/
 │   ├── examples/              # Example scripts
-│   │   ├── 01-basics.ts
-│   │   ├── 02-social-network.ts
-│   │   ├── 03-transactions.ts
-│   │   ├── 04-vector-search.ts
-│   │   ├── 05-configuration.ts
-│   │   ├── 06-advanced-queries.ts
-│   │   ├── 07-path-finding.ts
-│   │   ├── 08-temporal-types.ts
-│   │   └── 09-advanced-features.ts
+│   │   ├── 01-basics.ts              # Cypher: Basic CRUD
+│   │   ├── 02-social-network.ts      # Cypher: Social graph
+│   │   ├── 03-transactions.ts        # Cypher: Transactions
+│   │   ├── 04-vector-search.ts       # Cypher: Vector search
+│   │   ├── 05-configuration.ts       # Config options
+│   │   ├── 06-advanced-queries.ts    # Cypher: Advanced queries
+│   │   ├── 07-path-finding.ts        # Cypher: Path finding
+│   │   ├── 08-temporal-types.ts      # Cypher: Temporal types
+│   │   ├── 09-advanced-features.ts   # Cypher: Advanced features
+│   │   ├── 10-javascript-api-basics.ts       # JS API: Basics
+│   │   ├── 11-javascript-api-crud.ts         # JS API: CRUD
+│   │   ├── 12-navigator-traversal.ts         # Navigator: Traversal
+│   │   ├── 13-pattern-matching.ts            # JS API: Patterns
+│   │   └── 14-when-to-use-what.ts            # Comparison guide
 │   ├── utils/                 # Helper utilities
 │   │   ├── logger.ts          # Colored console output
 │   │   ├── timer.ts           # Performance timing
@@ -215,6 +236,63 @@ Advanced Cypher language features:
 - Email validation and filtering
 
 **Time:** 12 minutes
+
+### 10 - JavaScript API Basics
+
+Introduction to CongraphDB's JavaScript Native API:
+- Initializing CongraphDBAPI
+- Creating nodes with createNode()
+- Creating edges with createEdge()
+- Retrieving nodes with getNode()
+- Comparison with equivalent Cypher queries
+
+**Time:** 10 minutes
+
+### 11 - JavaScript API CRUD
+
+Comprehensive CRUD operations using JavaScript API:
+- createNode(), getNode(), getNodesByLabel()
+- updateNode(), deleteNode() with detach
+- createEdge(), getEdge(), getEdges()
+- updateEdge(), deleteEdge()
+- Batch operations and error handling
+
+**Time:** 12 minutes
+
+### 12 - Navigator Traversal
+
+Fluent graph traversal with Navigator API:
+- Basic traversal: .out(), .in(), .both()
+- Multi-hop traversals
+- Filtering with .where() and .limit()
+- Path finding with .to()
+- Async iteration with for await...of
+- LevelGraph compatibility
+
+**Time:** 12 minutes
+
+### 13 - Pattern Matching
+
+Declarative pattern matching with find() and v():
+- Subject-predicate-object patterns
+- Variable binding with v()
+- Multi-pattern queries
+- Property filters
+- Combining with Navigator
+- Pattern class for reusable queries
+
+**Time:** 10 minutes
+
+### 14 - Choosing Your Query Interface
+
+Side-by-side comparison of all three interfaces:
+- Performance characteristics
+- Decision tree for choosing an interface
+- Use case recommendations
+- When to mix interfaces
+- Summary comparison table
+
+**Time:** 15 minutes
 
 ## Documentation
 

@@ -31,6 +31,11 @@ import { run as runAdvancedQueries } from './examples/06-advanced-queries.js';
 import { run as runPathFinding } from './examples/07-path-finding.js';
 import { run as runTemporalTypes } from './examples/08-temporal-types.js';
 import { run as runAdvancedFeatures } from './examples/09-advanced-features.js';
+import { run as runJavaScriptApiBasics } from './examples/10-javascript-api-basics.js';
+import { run as runJavaScriptApiCrud } from './examples/11-javascript-api-crud.js';
+import { run as runNavigatorTraversal } from './examples/12-navigator-traversal.js';
+import { run as runPatternMatching } from './examples/13-pattern-matching.js';
+import { run as runWhenToUseWhat } from './examples/14-when-to-use-what.js';
 
 // Example metadata
 const EXAMPLES = [
@@ -87,6 +92,36 @@ const EXAMPLES = [
     description: 'Multi-label, regex, maps',
     module: runAdvancedFeatures,
     order: 9,
+  },
+  {
+    name: 'javascript-api-basics',
+    description: 'JavaScript API basics',
+    module: runJavaScriptApiBasics,
+    order: 10,
+  },
+  {
+    name: 'javascript-api-crud',
+    description: 'JavaScript API CRUD operations',
+    module: runJavaScriptApiCrud,
+    order: 11,
+  },
+  {
+    name: 'navigator-traversal',
+    description: 'Navigator fluent traversal',
+    module: runNavigatorTraversal,
+    order: 12,
+  },
+  {
+    name: 'pattern-matching',
+    description: 'Pattern matching with find()',
+    module: runPatternMatching,
+    order: 13,
+  },
+  {
+    name: 'when-to-use-what',
+    description: 'Choosing query interface',
+    module: runWhenToUseWhat,
+    order: 14,
   },
 ];
 
