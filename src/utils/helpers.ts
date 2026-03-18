@@ -4,7 +4,7 @@
 
 import path from 'path';
 import fs from 'fs';
-import congraphdb from '@congraph-ai/congraphdb';
+import congraphdb from 'congraphdb';
 
 export interface DatabaseConfig {
   path?: string;

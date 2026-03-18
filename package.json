@@ -11,7 +11,7 @@
     "clean": "rm -rf dist data/*.cgraph data/*.wal"
   },
   "dependencies": {
-    "@congraph-ai/congraphdb": "file:../congraphdb",
+    "congraphdb": "file:../congraphdb",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "ora": "^7.0.1"

@@ -27,7 +27,7 @@
  * - Async iteration
  */
 
-import congraphdb, { CongraphDBAPI } from '@congraph-ai/congraphdb';
+import congraphdb, { CongraphDBAPI } from 'congraphdb';
 import { createDatabase } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 

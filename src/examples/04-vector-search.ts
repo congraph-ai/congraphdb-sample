@@ -14,7 +14,7 @@
  * - Duplicate detection
  */
 
-import congraphdb from '@congraph-ai/congraphdb';
+import congraphdb from 'congraphdb';
 import { createDatabase, executeQuery, printResults, generateEmbedding } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 

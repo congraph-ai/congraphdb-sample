@@ -12,7 +12,7 @@
  * Understanding these options helps optimize performance for different use cases.
  */
 
-import congraphdb from '@congraph-ai/congraphdb';
+import congraphdb from 'congraphdb';
 import fs from 'fs';
 import { executeQuery, printResults } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';

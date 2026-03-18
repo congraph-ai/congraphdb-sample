@@ -20,7 +20,7 @@
  * - Using the NodeAPI and EdgeAPI directly
  */
 
-import congraphdb, { CongraphDBAPI, NodeAPI, EdgeAPI } from '@congraph-ai/congraphdb';
+import congraphdb, { CongraphDBAPI, NodeAPI, EdgeAPI } from 'congraphdb';
 import { createDatabase } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 

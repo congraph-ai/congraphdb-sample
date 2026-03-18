@@ -23,7 +23,7 @@
  * - When you want graph-like query syntax without Cypher
  */
 
-import congraphdb, { CongraphDBAPI, Pattern } from '@congraph-ai/congraphdb';
+import congraphdb, { CongraphDBAPI, Pattern } from 'congraphdb';
 import { createDatabase } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 

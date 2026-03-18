@@ -17,7 +17,7 @@
  *   Users can like posts (LIKED)
  */
 
-import congraphdb from '@congraph-ai/congraphdb';
+import congraphdb from 'congraphdb';
 import { createDatabase, executeQuery, printResults } from '../utils/helpers.js';
 import { createLogger } from '../utils/logger.js';
 
