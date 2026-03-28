@@ -8,16 +8,17 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsc && node dist/index.js",
-    "clean": "rm -rf dist data/*.cgraph data/*.wal"
+    "clean": "node clean.js"
   },
   "dependencies": {
-     "congraphdb": "^0.1.6",
+    "congraphdb": "^0.1.7",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "ora": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "rimraf": "^5.0.0",
     "typescript": "^5.3.0"
   }
 }
