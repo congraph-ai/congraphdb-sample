@@ -1,10 +1,10 @@
-# CongraphDB Sample Project
+# CongraphDB SDK
 
-> A comprehensive, easy-to-understand demo project that showcases all key features of CongraphDB
+> A comprehensive, easy-to-understand SDK that showcases all key features of CongraphDB
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.6-orange)](https://www.npmjs.com/package/congraphdb)
+[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.8-orange)](https://www.npmjs.com/package/congraphdb)
 
 ## What is CongraphDB?
 
@@ -17,7 +17,7 @@ CongraphDB is an embedded graph database that brings the power of graph data mod
 
 ## Features Demonstrated
 
-This sample project showcases:
+This SDK showcases:
 
 ### Cypher Query Language (Examples 01-09)
 - **Core Graph Operations** - Creating nodes, relationships, and querying with Cypher
@@ -36,17 +36,23 @@ This sample project showcases:
 - **Pattern Matching** - Declarative pattern matching with find() and v() variables
 - **Interface Comparison** - When to use Cypher vs JavaScript API vs Navigator
 
+### High-level SDK (New in 0.2.0)
+- **CongraphSDK Wrapper** - Simple class for common note-taking and graph operations
+- **Filesystem Synchronization** - Automatic syncing of database nodes to Markdown files
+- **Knowledge Graph Management** - Automatic wiki-link (`[[Note Title]]`) parsing and linkage
+- **Plugin-ready Structure** - Clean separation of concerns for easy integration
+
 ## Quick Start
 
 ### Prerequisites
 
 - Node.js 20 or higher
-- npm or yarn
+- npm or pnpm
 - TypeScript 5.3+
 
 ### Installation
 
-1. Clone this repository and navigate to the congraphdb-sample directory
+1. Clone this repository and navigate to the `congraphdb-sdk` directory.
 
 2. Install dependencies:
 
@@ -60,7 +66,7 @@ npm install
 npm run dev
 ```
 
-This will build the TypeScript code and run all examples.
+This will build the TypeScript code and run the interactive CLI.
 
 ### Running Examples
 
@@ -70,262 +76,135 @@ Run all examples (builds first):
 npm run dev
 ```
 
-Run all examples (requires pre-built dist/):
-
-```bash
-npm start
-```
-
 Run a specific example:
 
 ```bash
-# Cypher Query Language Examples (01-09)
-npm start basics              # Basic CRUD operations
-npm start social-network      # Social network graph demo
-npm start transactions        # Transaction demo
-npm start vector-search       # AI/Embedding similarity search
-npm start configuration       # DB configuration options
-npm start advanced-queries    # Complex Cypher patterns
-npm start path-finding        # Path finding algorithms
-npm start temporal-types      # Temporal data types
-npm start advanced-features   # Multi-label, regex, maps
+# High-level SDK Example (New!)
+npm start notes-sdk                   # High-level SDK wrapper demo
 
 # JavaScript API Examples (10-14)
 npm start javascript-api-basics       # JavaScript API fundamentals
-npm start javascript-api-crud         # Advanced CRUD operations
 npm start navigator-traversal         # Fluent graph traversal
 npm start pattern-matching            # Pattern matching with find()
-npm start when-to-use-what            # Choosing query interface
+
+# Cypher Query Language Examples (01-09)
+npm start basics              # Basic CRUD operations
+npm start social-network      # Social network graph demo
+npm start vector-search       # AI/Embedding similarity search
+npm start path-finding        # Path finding algorithms
 ```
 
-### Options
+## SDK Architecture
 
-```bash
-npm start -- --verbose        # Show query details
-npm start -- --list           # List all examples
-npm start -- --interactive    # Interactive mode
-npm start -- --help           # Show help
+The `CongraphSDK` is designed with a plugin-style architecture that allows switching between different query engines while maintaining a consistent high-level interface.
+
+### Dual-Engine Support
+- **`DatabaseJavaScript`**: Uses the native JavaScript `CongraphDBAPI`. Ideal for low-latency programmatic access and simple traversals. Excellent for environments where Cypher parsing overhead is unwanted.
+- **`DatabaseCypher`**: Uses the full Cypher query engine. Ideal for complex relational queries, pattern matching, and developers coming from Neo4j background.
+
+### Filesystem Synchronization
+The SDK maintains a "Single Source of Truth" in the graph database while automatically synchronizing state to the filesystem:
+- **Database → Filesystem**: When a note is created or updated via the SDK, a corresponding `.md` file is generated with YAML frontmatter.
+- **Filesystem → Database**: On initialization, the SDK can scan the notes directory and restore/update the graph from the markdown files, allowing for "local-first" workflows where users can edit files in their favorite editor (like Obsidian or VS Code).
+
+## SDK Reference
+
+### Initialization
+
+```typescript
+import { CongraphSDK } from 'congraphdb-sdk';
+
+// Initialize with DB path, notes directory, and engine choice
+const sdk = new CongraphSDK(
+  './data/notes.cgraph', 
+  './data/notes',
+  'javascript' // or 'cypher'
+);
+
+await sdk.init();
 ```
+
+### Core Operations
+
+| Method | Description |
+|--------|-------------|
+| `createNote(input)` | Create a note and sync to file. Automatically parses `[[wiki-links]]`. |
+| `getNote(id)` | Retrieve a note by its ID. |
+| `updateNote(id, input)` | Update note content/metadata and sync to file. |
+| `deleteNote(id)` | Remove note from DB and delete its markdown file. |
+| `listNotes(limit, offset)` | Paginated list of all notes. |
+
+### Graph & Search
+
+| Method | Description |
+|--------|-------------|
+| `getNeighbors(id, depth)` | Get related nodes within N hops. |
+| `getGraphData(centerId)` | Get nodes and edges for visualization. |
+| `searchNotes(query)` | Full-text search with relevance scoring. |
+| `getSuggestions(query)` | Title/Tag completion for UI search bars. |
+| `findPath(from, to)` | Find the shortest link path between two notes. |
+| `getBacklinks(id)` | Find all notes that link TO this note. |
+
+## Migration Guide
+
+This SDK was built to centralize and standardize the database logic previously found in the `graph-mind` project.
+
+### From logic in `graph-mind`
+
+If you are migrating from the old `Database.service.ts` pattern:
+
+**Old Pattern:**
+```typescript
+// Spread across multiple services
+const db = new Database('...');
+const conn = db.createConnection();
+await conn.query('CREATE TABLE ...');
+// Manual sync logic everywhere
+```
+
+**New SDK Pattern:**
+```typescript
+import { CongraphSDK } from 'congraphdb-sdk';
+
+const sdk = new CongraphSDK();
+await sdk.init(); // Handles connection, schema, and directory setup
+
+// High-level operations handle the complexity
+const note = await sdk.createNote({ title: 'New Note', content: '...' });
+```
+
+### Mapping of Features
+
+| Old `graph-mind` Location | `congraphdb-sdk` Equivalent |
+|---------------------------|----------------------------|
+| `Database.service.ts` | `src/lib/sdk.ts` |
+| `javascript.ts` (Backend) | `src/lib/javascript.ts` |
+| `cypher.ts` (Backend) | `src/lib/cypher.ts` |
+| `syncNote` (Internal) | `sdk.createNote()` (Automated) |
+| `backend/src/types/` | `import { ... } from 'congraphdb-sdk'` |
 
 ## Project Structure
 
 ```
-congraphdb-sample/
+congraphdb-sdk/
 ├── src/
-│   ├── examples/              # Example scripts
-│   │   ├── 01-basics.ts              # Cypher: Basic CRUD
-│   │   ├── 02-social-network.ts      # Cypher: Social graph
-│   │   ├── 03-transactions.ts        # Cypher: Transactions
-│   │   ├── 04-vector-search.ts       # Cypher: Vector search
-│   │   ├── 05-configuration.ts       # Config options
-│   │   ├── 06-advanced-queries.ts    # Cypher: Advanced queries
-│   │   ├── 07-path-finding.ts        # Cypher: Path finding
-│   │   ├── 08-temporal-types.ts      # Cypher: Temporal types
-│   │   ├── 09-advanced-features.ts   # Cypher: Advanced features
-│   │   ├── 10-javascript-api-basics.ts       # JS API: Basics
-│   │   ├── 11-javascript-api-crud.ts         # JS API: CRUD
-│   │   ├── 12-navigator-traversal.ts         # Navigator: Traversal
-│   │   ├── 13-pattern-matching.ts            # JS API: Patterns
-│   │   └── 14-when-to-use-what.ts            # Comparison guide
-│   ├── utils/                 # Helper utilities
-│   │   ├── logger.ts          # Colored console output
-│   │   ├── timer.ts           # Performance timing
-│   │   └── helpers.ts         # DB helpers
-│   └── index.ts               # CLI entry point
-├── data/                      # Database files created during examples
-├── docs/                      # Documentation
-│   ├── tutorial.md
-│   ├── api-cheatsheet.md
-│   └── use-cases.md
-├── package.json
-├── tsconfig.json
-└── README.md
+│   ├── lib/                   # Core SDK Library
+│   │   ├── types.ts           # Type definitions
+│   │   ├── common.ts          # Shared utilities (wiki-link parsing, idify)
+│   │   ├── javascript.ts      # JavaScript API implementation
+│   │   ├── cypher.ts          # Cypher implementation & Schema
+│   │   └── sdk.ts             # Main High-level entry point
+│   ├── examples/              # Demonstration scripts (01-15)
+│   ├── cli.ts                 # CLI Demo runner
+│   └── index.ts               # SDK Export entry point
+├── data/                      # Sample database and notes
+├── README.md
+└── package.json
 ```
-
-## Example Descriptions
-
-### 01 - Basics
-
-Learn the fundamentals:
-- Creating/opening a database
-- Defining node and relationship tables
-- CREATE, MATCH, UPDATE, DELETE operations
-
-**Time:** 5 minutes
-
-### 02 - Social Network
-
-Real-world graph modeling:
-- Multiple node types (User, Post, Comment)
-- Multiple relationship types (FOLLOWS, POSTED, LIKED)
-- 2-hop and 3-hop queries
-- Content recommendations
-
-**Time:** 10 minutes
-
-### 03 - Transactions
-
-ACID transaction guarantees:
-- Multi-operation transactions
-- Commit and rollback
-- Error handling
-- Banking system use case
-
-**Time:** 8 minutes
-
-### 04 - Vector Search
-
-AI/ML integration:
-- FLOAT_VECTOR columns
-- Similarity search with <-> operator
-- Semantic document search
-- Recommendations by similarity
-
-**Time:** 10 minutes
-
-### 05 - Configuration
-
-Database optimization:
-- In-memory vs file-based
-- Buffer size tuning
-- Compression options
-- WAL and checkpointing
-
-**Time:** 8 minutes
-
-### 06 - Advanced Queries
-
-Complex Cypher patterns:
-- OPTIONAL MATCH
-- Variable-length paths
-- Aggregation functions
-- Pattern comprehensions
-- CASE expressions
-
-**Time:** 12 minutes
-
-### 07 - Path Finding
-
-Graph traversal and path finding:
-- shortestPath() - Find shortest path between nodes
-- allShortestPaths() - Find all shortest paths
-- Variable-length path patterns [*1..n]
-- Relationship direction control
-- Use cases: Route optimization, social network analysis
-
-**Time:** 10 minutes
-
-### 08 - Temporal Types
-
-Working with dates and times:
-- DATE, DATETIME, DURATION types
-- date(), datetime(), timestamp() functions
-- Date arithmetic and comparisons
-- ISO 8601 duration parsing
-- Time-based analytics
-
-**Time:** 10 minutes
-
-### 09 - Advanced Features
-
-Advanced Cypher language features:
-- Multi-label nodes for rich classification
-- Regex pattern matching with =~
-- Map literals for dynamic data structures
-- Role-based access control patterns
-- Email validation and filtering
-
-**Time:** 12 minutes
-
-### 10 - JavaScript API Basics
-
-Introduction to CongraphDB's JavaScript Native API:
-- Initializing CongraphDBAPI
-- Creating nodes with createNode()
-- Creating edges with createEdge()
-- Retrieving nodes with getNode()
-- Comparison with equivalent Cypher queries
-
-**Time:** 10 minutes
-
-### 11 - JavaScript API CRUD
-
-Comprehensive CRUD operations using JavaScript API:
-- createNode(), getNode(), getNodesByLabel()
-- updateNode(), deleteNode() with detach
-- createEdge(), getEdge(), getEdges()
-- updateEdge(), deleteEdge()
-- Batch operations and error handling
-
-**Time:** 12 minutes
-
-### 12 - Navigator Traversal
-
-Fluent graph traversal with Navigator API:
-- Basic traversal: .out(), .in(), .both()
-- Multi-hop traversals
-- Filtering with .where() and .limit()
-- Path finding with .to()
-- Async iteration with for await...of
-- LevelGraph compatibility
-
-**Time:** 12 minutes
-
-### 13 - Pattern Matching
-
-Declarative pattern matching with find() and v():
-- Subject-predicate-object patterns
-- Variable binding with v()
-- Multi-pattern queries
-- Property filters
-- Combining with Navigator
-- Pattern class for reusable queries
-
-**Time:** 10 minutes
-
-### 14 - Choosing Your Query Interface
-
-Side-by-side comparison of all three interfaces:
-- Performance characteristics
-- Decision tree for choosing an interface
-- Use case recommendations
-- When to mix interfaces
-- Summary comparison table
-
-**Time:** 15 minutes
-
-## Documentation
-
-- **[Tutorial](docs/tutorial.md)** - Step-by-step guide from zero to working app
-- **[API Cheatsheet](docs/api-cheatsheet.md)** - Quick reference for CongraphDB API
-- **[Use Cases](docs/use-cases.md)** - Real-world application scenarios
-
-## Development
-
-### Building
-
-```bash
-npm run build
-```
-
-### Cleaning
-
-Remove build artifacts and database files:
-
-```bash
-npm run clean
-```
-
-### Adding New Examples
-
-1. Create a new file in `src/examples/`
-2. Export a `run(verbose?: boolean): Promise<void>` function
-3. Import and register in `src/index.ts`
-4. Add documentation
 
 ## Contributing
 
-Contributions are welcome! This is a community-focused project to help developers learn CongraphDB.
+Contributions are welcome! This is a community-focused project to help developers learn and build with CongraphDB.
 
 ## License
 
@@ -336,5 +215,7 @@ MIT
 - [CongraphDB on npm](https://www.npmjs.com/package/congraphdb)
 - [CongraphDB Repository](https://github.com/congraph-ai/congraphdb)
 - [Official Documentation](https://congraph-ai.github.io/congraphdb-docs/)
+- [Cypher Query Language](https://opencypher.org/)
+Documentation](https://congraph-ai.github.io/congraphdb-docs/)
 - [Cypher Query Language](https://opencypher.org/)
 - [Project Documentation](docs/)

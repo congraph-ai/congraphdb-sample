@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  congraphdb-server:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - CONGRAPH_PORT=3000
+      - CONGRAPH_HOST=0.0.0.0
+      - CONGRAPH_DB_PATH=/data/congraphdb
+      - CONGRAPH_AUTH_ENABLED=true
+      - CONGRAPH_JWT_SECRET=${CONGRAPH_JWT_SECRET:-your-secret-key-change-me}
+      - CONGRAPH_API_KEY=${CONGRAPH_API_KEY:-}
+      - CONGRAPH_LOG_LEVEL=info
+      - CONGRAPH_BACKUP_ENABLED=true
+      - CONGRAPH_BACKUP_INTERVAL=300000
+      - NODE_ENV=production
+    volumes:
+      - congraph-data:/data
+      - congraph-logs:/app/logs
+      - congraph-backups:/app/backups
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  congraph-data:
+    driver: local
+  congraph-logs:
+    driver: local
+  congraph-backups:
+    driver: local
