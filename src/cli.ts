@@ -43,6 +43,8 @@ import { run as runAlgorithmsCentrality } from './examples/18-algorithms-central
 import { run as runAlgorithmsCommunity } from './examples/19-algorithms-community.js';
 import { run as runAlgorithmsTraversal } from './examples/20-algorithms-traversal.js';
 import { run as runAlgorithmsAnalytics } from './examples/21-algorithms-analytics.js';
+import { run as runDocumentAPI } from './examples/22-document-api.js';
+import { run as runSQLDDL } from './examples/23-sql-ddl.js';
 
 // Example metadata
 const EXAMPLES = [
@@ -171,6 +173,18 @@ const EXAMPLES = [
     description: 'Graph Analytics Algorithms',
     module: runAlgorithmsAnalytics,
     order: 21,
+  },
+  {
+    name: 'document-api',
+    description: 'Document API for RAG (v0.1.10+)',
+    module: runDocumentAPI,
+    order: 22,
+  },
+  {
+    name: 'sql-ddl',
+    description: 'SQL DDL & Insert (v0.1.10+)',
+    module: runSQLDDL,
+    order: 23,
   },
 ];
 

@@ -4,7 +4,7 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.8-orange)](https://www.npmjs.com/package/congraphdb)
+[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.10-orange)](https://www.npmjs.com/package/congraphdb)
 
 ## What is CongraphDB?
 
@@ -46,6 +46,12 @@ This SDK showcases:
 - **OCC Transactions** - Optimistic Concurrency Control for high-concurrency scenarios
 - **Schema API** - JavaScript-native schema creation and management
 - **Graph Algorithms** - PageRank, Community Detection, Traversal, Analytics
+
+### v0.1.10 Features (Examples 22-25)
+- **Document API** - Specialized methods for RAG workflows (`createChunk`, `createEntity`, `createFact`)
+- **SQL DDL Support** - `CREATE NODE TABLE` and `INSERT INTO` syntax
+- **Lock Manager** - Deadlock prevention and transaction coordination
+- **Enhanced Types** - Generic `Node<T>`, `Edge<T>`, and `Result<T>` for superior DX
 
 ## Quick Start
 
@@ -91,6 +97,10 @@ npm start algorithms-centrality          # Centrality Algorithms
 npm start algorithms-community           # Community Detection
 npm start algorithms-traversal           # Traversal & Path Algorithms
 npm start algorithms-analytics            # Graph Analytics
+
+# v0.1.10 Examples (New!)
+npm start document-api                    # Document API for RAG
+npm start sql-ddl                         # SQL-style schema definition
 
 # High-level SDK Example
 npm start notes-sdk                      # High-level SDK wrapper demo
@@ -185,6 +195,16 @@ await sdk.init();
 | `bfs(options)` | Breadth-first search traversal |
 | `triangleCount()` | Count triangles in the graph |
 | `connectedComponents(options)` | Find connected components |
+
+### Document API (v0.1.10+)
+
+| Method | Description |
+|--------|-------------|
+| `createChunk(properties)` | Create a document chunk with vector embedding |
+| `createEntity(label, props)` | Create a named entity in the knowledge graph |
+| `createFact(fromId, toId, type)` | Create a relationship between entities |
+| `nodeExists(id)` | Check if a node exists by ID |
+
 
 ## Migration Guide
 
