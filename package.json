@@ -1,6 +1,6 @@
 {
   "name": "congraphdb-sdk",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "High-level SDK and driver for CongraphDB",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "clean": "node clean.js"
   },
   "dependencies": {
-    "congraphdb": "^0.1.10",
+    "congraphdb": "^0.1.11",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "ora": "^7.0.1"

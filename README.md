@@ -4,7 +4,7 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.10-orange)](https://www.npmjs.com/package/congraphdb)
+[![CongraphDB](https://img.shields.io/badge/CongraphDB-0.1.11-orange)](https://www.npmjs.com/package/congraphdb)
 
 ## What is CongraphDB?
 
@@ -52,6 +52,12 @@ This SDK showcases:
 - **SQL DDL Support** - `CREATE NODE TABLE` and `INSERT INTO` syntax
 - **Lock Manager** - Deadlock prevention and transaction coordination
 - **Enhanced Types** - Generic `Node<T>`, `Edge<T>`, and `Result<T>` for superior DX
+
+### v0.1.11 Features (Examples 26-29)
+- **Explicit Transactions** - `BEGIN` and `COMMIT` statements in Cypher
+- **Hierarchical Louvain** - Multi-level community detection and label application
+- **WAL Durability** - Enhanced crash recovery and undo logging
+- **Algorithm Updates** - Dijkstra, stable Leiden, and normalized closeness centrality
 
 ## Quick Start
 
